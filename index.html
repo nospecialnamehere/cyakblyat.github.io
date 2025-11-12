@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tick Volume Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Formulas section -->
+  <div class="formulas">
+    <div><em>Time for ticks</em> = tr × req × t / (g × 60)</div>
+    <div><em>Time for volume</em> = vol / (r × 60 / (req × t))</div>
+    <div><em>Volume received</em> = GT × 60 × r / (req × t)</div>
+  </div>
+
+  <!-- Calculator UI -->
+  <div class="calculator">
+    <div style="display:flex;align-items:center;margin-bottom:0.5rem;">
+      <button class="toggle-btn" id="toggleModeBtn" onclick="toggleMode()">Shorthand Vol & RP</button>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group"><label>Time/Tick (t)</label><input id="t" value="3.2"><span style="margin-left:4px;font-size:0.9rem;color:#8b949e;">sec</span></div>
+      <div class="input-group"><label>Ticks/Study (req)</label><input id="req" value="9"></div>
+      <div class="input-group"><label>Studies/Study (g)</label><input id="g" value="5"></div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group"><label>Ticks Req. (tr)</label><input id="tr"></div>
+
+      <div id="v_shorthand" class="input-group">
+        <label>Vol Req (v)</label>
+        <input id="v" placeholder="e.g., 5m">
+      </div>
+      <div id="r_shorthand" class="input-group">
+        <label>RP/Study (r)</label>
+        <input id="r" placeholder="e.g., 2k">
+      </div>
+
+      <div id="v_baseexp" class="input-group" style="display:none;">
+        <label>Vol Base</label>
+        <input id="v_base" placeholder="Base">
+        <label style="margin-left:5px;">Exp</label>
+        <input id="v_exp" placeholder="Exp">
+      </div>
+      <div id="r_baseexp" class="input-group" style="display:none;">
+        <label>RP Base</label>
+        <input id="r_base" placeholder="Base">
+        <label style="margin-left:5px;">Exp</label>
+        <input id="r_exp" placeholder="Exp">
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group"><label>Given Time (GT)</label><input id="gt"></div>
+    </div>
+
+    <button onclick="calc()">Compute</button>
+
+    <div class="result" id="res1"></div>
+    <div class="result" id="res2"></div>
+    <div class="result" id="res3"></div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+/* === Starry Background === */
+body {
+  background:
+    radial-gradient(2.5px 2.5px at 10% 15%, #ffffffcc, transparent),
+    radial-gradient(2px 2px at 25% 35%, #aaddffff, transparent),
+    radial-gradient(3px 3px at 40% 10%, #ffd6aaff, transparent),
+    radial-gradient(2px 2px at 70% 20%, #ffb3ffcc, transparent),
+    radial-gradient(2px 2px at 85% 45%, #b0e0ffff, transparent),
+    radial-gradient(1.5px 1.5px at 60% 70%, #ffffff88, transparent),
+    radial-gradient(2px 2px at 30% 80%, #aaddff99, transparent),
+    radial-gradient(1.8px 1.8px at 90% 60%, #ffeedd88, transparent),
+    radial-gradient(1.2px 1.2px at 50% 90%, #ffccff77, transparent),
+    radial-gradient(1.5px 1.5px at 15% 75%, #ffffff66, transparent),
+    #0d1117;
+  background-repeat: repeat;
+  background-size: 200px 200px;
+
+  font-family: sans-serif;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #c9d1d9;
+}
+
+/* === Header === */
+header {
+  width: 100%;
+  text-align: center;
+  background: #161b22;
+  padding: 1rem;
+  border-bottom: 1px solid #30363d;
+  font-weight: bold;
+}
+
+/* === Calculator Box === */
+.calculator {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1.5rem;
+  width: 450px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* === Input Rows and Groups === */
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: .7rem;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+  margin: .2rem;
+}
+label {
+  margin-right: .3rem;
+  font-size: .9rem;
+  white-space: nowrap;
+}
+input {
+  width: 80px;
+  padding: .3rem;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+#t, #req, #g {
+  width: 25px;
+}
+
+/* === Buttons === */
+button {
+  width: 100%;
+  background: #238636;
+  color: #fff;
+  border: none;
+  padding: .6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: .5rem;
+}
+button:hover {
+  background: #2ea043;
+}
+
+/* === Results === */
+.result {
+  margin-top: .8rem;
+  font-weight: bold;
+  text-align: center;
+}
