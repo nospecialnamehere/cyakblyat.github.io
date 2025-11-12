@@ -1,21 +1,8 @@
-/* === Starry Background === */
+/* === Starry Animated Parallax Background === */
 body {
-  background:
-    radial-gradient(2.5px 2.5px at 10% 15%, #ffffffcc, transparent),
-    radial-gradient(2px 2px at 25% 35%, #aaddffff, transparent),
-    radial-gradient(3px 3px at 40% 10%, #ffd6aaff, transparent),
-    radial-gradient(2px 2px at 70% 20%, #ffb3ffcc, transparent),
-    radial-gradient(2px 2px at 85% 45%, #b0e0ffff, transparent),
-    radial-gradient(1.5px 1.5px at 60% 70%, #ffffff88, transparent),
-    radial-gradient(2px 2px at 30% 80%, #aaddff99, transparent),
-    radial-gradient(1.8px 1.8px at 90% 60%, #ffeedd88, transparent),
-    radial-gradient(1.2px 1.2px at 50% 90%, #ffccff77, transparent),
-    radial-gradient(1.5px 1.5px at 15% 75%, #ffffff66, transparent),
-    #0d1117;
-  background-repeat: repeat;
-  background-size: 200px 200px;
-
-  font-family: sans-serif;
+  position: relative;
+  overflow: hidden;
+  font-family: "Inter", "Segoe UI", sans-serif;
   margin: 0;
   height: 100vh;
   display: flex;
@@ -23,26 +10,103 @@ body {
   align-items: center;
   justify-content: center;
   color: #c9d1d9;
+  background: #0d1117;
+}
+
+/* === Main star layer (foreground stars) === */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(2.5px 2.5px at 5% 10%, #ffffffcc, transparent),
+    radial-gradient(2px 2px at 15% 25%, #aaddffff, transparent),
+    radial-gradient(3px 3px at 40% 15%, #ffd6aaff, transparent),
+    radial-gradient(2px 2px at 70% 20%, #ffb3ffcc, transparent),
+    radial-gradient(2px 2px at 85% 45%, #b0e0ffff, transparent),
+    radial-gradient(1.5px 1.5px at 60% 70%, #ffffff88, transparent),
+    radial-gradient(2px 2px at 30% 80%, #aaddff99, transparent),
+    radial-gradient(1.8px 1.8px at 90% 60%, #ffeedd88, transparent),
+    radial-gradient(1.2px 1.2px at 50% 90%, #ffccff77, transparent),
+    radial-gradient(1.5px 1.5px at 15% 75%, #ffffff66, transparent),
+    radial-gradient(2px 2px at 25% 10%, #aaffffff, transparent),
+    radial-gradient(1.5px 1.5px at 75% 30%, #ffffffaa, transparent),
+    radial-gradient(1.8px 1.8px at 55% 40%, #ffddffaa, transparent),
+    radial-gradient(1.2px 1.2px at 35% 60%, #aaddffbb, transparent),
+    radial-gradient(2px 2px at 95% 80%, #ffffffaa, transparent),
+    radial-gradient(2px 2px at 10% 90%, #ffd6aaff, transparent);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: twinkle 18s linear infinite alternate;
+  z-index: -1;
+}
+
+/* === Distant star layer (background stars) === */
+body::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 300%;
+  height: 300%;
+  background:
+    radial-gradient(1.2px 1.2px at 10% 15%, #ffffff55, transparent),
+    radial-gradient(1px 1px at 40% 30%, #aaddff55, transparent),
+    radial-gradient(1.2px 1.2px at 75% 25%, #ffd6aa55, transparent),
+    radial-gradient(1.5px 1.5px at 30% 70%, #ffffff44, transparent),
+    radial-gradient(1px 1px at 85% 60%, #b0e0ff55, transparent),
+    radial-gradient(1.2px 1.2px at 45% 85%, #ffccff44, transparent),
+    radial-gradient(1px 1px at 60% 40%, #aaddff44, transparent),
+    radial-gradient(1px 1px at 20% 90%, #ffeedd55, transparent);
+  background-repeat: repeat;
+  background-size: 250px 250px;
+  animation: drift 60s linear infinite alternate;
+  z-index: -2;
+  opacity: 0.8;
+}
+
+/* === Animations === */
+@keyframes twinkle {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-100px, -100px, 0); }
+}
+
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(150px, 150px, 0); }
 }
 
 /* === Header === */
 header {
   width: 100%;
   text-align: center;
-  background: #161b22;
+  background: rgba(22, 27, 34, 0.8);
   padding: 1rem;
   border-bottom: 1px solid #30363d;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 1;
 }
 
 /* === Calculator Box === */
 .calculator {
-  background: #161b22;
+  background: rgba(22, 27, 34, 0.8);
   border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 1.5rem;
+  border-radius: 10px;
+  padding: 1.8rem;
   width: 450px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+.calculator:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(56, 139, 253, 0.25);
 }
 
 /* === Input Rows and Groups === */
@@ -50,49 +114,66 @@ header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: .7rem;
+  margin-bottom: .9rem;
 }
 .input-group {
   display: flex;
   align-items: center;
-  margin: .2rem;
+  margin: .3rem;
 }
 label {
-  margin-right: .3rem;
+  margin-right: .4rem;
   font-size: .9rem;
   white-space: nowrap;
+  color: #aeb6c1;
 }
 input {
-  width: 80px;
-  padding: .3rem;
+  width: 85px;
+  padding: .35rem .4rem;
   border: 1px solid #30363d;
-  border-radius: 4px;
+  border-radius: 5px;
   background: #0d1117;
   color: #c9d1d9;
+  transition: all 0.2s ease;
+}
+input:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 6px #58a6ff44;
 }
 #t, #req, #g {
-  width: 25px;
+  width: 30px;
 }
 
 /* === Buttons === */
 button {
   width: 100%;
-  background: #238636;
+  background: linear-gradient(90deg, #238636, #2ea043);
   color: #fff;
   border: none;
-  padding: .6rem;
-  border-radius: 4px;
+  padding: .7rem;
+  border-radius: 5px;
   cursor: pointer;
   font-weight: 600;
-  margin-top: .5rem;
+  letter-spacing: 0.5px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
 }
 button:hover {
-  background: #2ea043;
+  background: linear-gradient(90deg, #2ea043, #3fb950);
+  transform: scale(1.02);
+  box-shadow: 0 0 12px #3fb95055;
+}
+button:active {
+  transform: scale(0.98);
 }
 
 /* === Results === */
 .result {
-  margin-top: .8rem;
-  font-weight: bold;
+  margin-top: 1rem;
+  font-weight: 700;
   text-align: center;
+  color: #58a6ff;
+  font-size: 1rem;
+  text-shadow: 0 0 8px #58a6ff55;
+  letter-spacing: 0.3px;
 }
