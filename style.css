@@ -1,115 +1,78 @@
-/* === Starry Animated Parallax Background === */
+/* === Cosmic Starfield Background === */
 body {
   position: relative;
   overflow: hidden;
-  font-family: "Inter", "Segoe UI", sans-serif;
   margin: 0;
   height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  font-family: "Inter", "Segoe UI", sans-serif;
   color: #c9d1d9;
   background: #0d1117;
 }
 
-/* === Main star layer (foreground stars) === */
-body::before {
+/* Star layers */
+body::before, body::after {
   content: "";
   position: absolute;
   top: 0; left: 0;
-  width: 200%;
-  height: 200%;
-  background:
-    radial-gradient(2.5px 2.5px at 5% 10%, #ffffffcc, transparent),
-    radial-gradient(2px 2px at 15% 25%, #aaddffff, transparent),
-    radial-gradient(3px 3px at 40% 15%, #ffd6aaff, transparent),
-    radial-gradient(2px 2px at 70% 20%, #ffb3ffcc, transparent),
-    radial-gradient(2px 2px at 85% 45%, #b0e0ffff, transparent),
-    radial-gradient(1.5px 1.5px at 60% 70%, #ffffff88, transparent),
-    radial-gradient(2px 2px at 30% 80%, #aaddff99, transparent),
-    radial-gradient(1.8px 1.8px at 90% 60%, #ffeedd88, transparent),
-    radial-gradient(1.2px 1.2px at 50% 90%, #ffccff77, transparent),
-    radial-gradient(1.5px 1.5px at 15% 75%, #ffffff66, transparent),
-    radial-gradient(2px 2px at 25% 10%, #aaffffff, transparent),
-    radial-gradient(1.5px 1.5px at 75% 30%, #ffffffaa, transparent),
-    radial-gradient(1.8px 1.8px at 55% 40%, #ffddffaa, transparent),
-    radial-gradient(1.2px 1.2px at 35% 60%, #aaddffbb, transparent),
-    radial-gradient(2px 2px at 95% 80%, #ffffffaa, transparent),
-    radial-gradient(2px 2px at 10% 90%, #ffd6aaff, transparent);
+  width: 300%; height: 300%;
   background-repeat: repeat;
+  z-index: -2;
+}
+body::before {
+  background:
+    radial-gradient(2px 2px at 10% 15%, #fff, transparent),
+    radial-gradient(2px 2px at 25% 35%, #aaddff, transparent),
+    radial-gradient(3px 3px at 40% 10%, #ffd6aa, transparent),
+    radial-gradient(2px 2px at 70% 20%, #ffb3ff, transparent),
+    radial-gradient(2px 2px at 85% 45%, #b0e0ff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 80%, #aaddff, transparent),
+    radial-gradient(1.5px 1.5px at 50% 90%, #ffccff, transparent);
   background-size: 200px 200px;
   animation: twinkle 18s linear infinite alternate;
   z-index: -1;
 }
-
-/* === Distant star layer (background stars) === */
 body::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 300%;
-  height: 300%;
   background:
-    radial-gradient(1.2px 1.2px at 10% 15%, #ffffff55, transparent),
-    radial-gradient(1px 1px at 40% 30%, #aaddff55, transparent),
-    radial-gradient(1.2px 1.2px at 75% 25%, #ffd6aa55, transparent),
-    radial-gradient(1.5px 1.5px at 30% 70%, #ffffff44, transparent),
-    radial-gradient(1px 1px at 85% 60%, #b0e0ff55, transparent),
-    radial-gradient(1.2px 1.2px at 45% 85%, #ffccff44, transparent),
-    radial-gradient(1px 1px at 60% 40%, #aaddff44, transparent),
-    radial-gradient(1px 1px at 20% 90%, #ffeedd55, transparent);
-  background-repeat: repeat;
+    radial-gradient(1px 1px at 20% 10%, #ffffff55, transparent),
+    radial-gradient(1px 1px at 60% 40%, #aaddff55, transparent),
+    radial-gradient(1px 1px at 90% 80%, #ffd6aa55, transparent),
+    radial-gradient(1px 1px at 35% 75%, #ffccff55, transparent);
   background-size: 250px 250px;
   animation: drift 60s linear infinite alternate;
-  z-index: -2;
   opacity: 0.8;
 }
 
-/* === Animations === */
+/* Star motion */
 @keyframes twinkle {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-100px, -100px, 0); }
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(-100px,-100px,0); }
 }
-
 @keyframes drift {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(150px, 150px, 0); }
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(150px,150px,0); }
 }
 
-/* === Header === */
-header {
-  width: 100%;
-  text-align: center;
-  background: rgba(22, 27, 34, 0.8);
-  padding: 1rem;
-  border-bottom: 1px solid #30363d;
-  font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  z-index: 1;
-}
-
-/* === Calculator Box === */
+/* === Calculator === */
 .calculator {
-  background: rgba(22, 27, 34, 0.8);
+  background: #161b22;
   border: 1px solid #30363d;
-  border-radius: 10px;
-  padding: 1.8rem;
+  border-radius: 6px;
+  padding: 1.5rem;
   width: 450px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  backdrop-filter: blur(12px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  z-index: 1;
-}
-.calculator:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 30px rgba(56, 139, 253, 0.25);
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+
+  /* NEW: position at bottom center */
+  position: absolute;
+  bottom: 3%;      /* adjust distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* === Input Rows and Groups === */
+/* Inputs */
 .input-row {
   display: flex;
   flex-wrap: wrap;
@@ -124,7 +87,6 @@ header {
 label {
   margin-right: .4rem;
   font-size: .9rem;
-  white-space: nowrap;
   color: #aeb6c1;
 }
 input {
@@ -134,18 +96,22 @@ input {
   border-radius: 5px;
   background: #0d1117;
   color: #c9d1d9;
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 input:focus {
-  outline: none;
   border-color: #58a6ff;
   box-shadow: 0 0 6px #58a6ff44;
+  outline: none;
 }
-#t, #req, #g {
-  width: 30px;
+#t, #req, #g { width: 30px; }
+
+.unit, .exp-label {
+  margin-left: 6px;
+  font-size: 0.85rem;
+  color: #8b949e;
 }
 
-/* === Buttons === */
+/* Buttons */
 button {
   width: 100%;
   background: linear-gradient(90deg, #238636, #2ea043);
@@ -156,24 +122,132 @@ button {
   cursor: pointer;
   font-weight: 600;
   letter-spacing: 0.5px;
-  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  transition: 0.3s;
 }
 button:hover {
   background: linear-gradient(90deg, #2ea043, #3fb950);
   transform: scale(1.02);
   box-shadow: 0 0 12px #3fb95055;
 }
-button:active {
-  transform: scale(0.98);
-}
+button:active { transform: scale(0.98); }
 
-/* === Results === */
+/* Results */
 .result {
   margin-top: 1rem;
   font-weight: 700;
   text-align: center;
   color: #58a6ff;
-  font-size: 1rem;
   text-shadow: 0 0 8px #58a6ff55;
-  letter-spacing: 0.3px;
 }
+
+/* === Floating Circular Formula Bubbles === */
+.formula-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5; /* ensures bubbles float over calculator */
+}
+
+.bubble {
+  position: absolute;
+  width: 120px;            /* reduced radius */
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(22,27,34,0.85), rgba(13,17,23,0.7));
+  border: 1px solid #30363d;
+  box-shadow: 0 0 20px rgba(56,139,253,0.3);
+  backdrop-filter: blur(6px);
+  color: #c9d1d9;
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.1rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+
+  /* Center mid on screen */
+  left: 50%;
+  top: 35%;
+  transform: translate(-50%, 0);
+
+  /* subtle float motion */
+  animation: float 6s ease-in-out infinite;
+}
+
+.bubble strong {
+  font-size: 0.9rem;
+  color: #58a6ff;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.bubble span {
+  color: #aeb6c1;
+  font-size: 0.8rem;
+  text-shadow: 0 0 5px rgba(56,139,253,0.3);
+}
+
+/* Star particles container inside each bubble */
+.bubble .stars {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+}
+
+.bubble .stars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: starburst 2s linear infinite;
+}
+
+/* Subtle float animation */
+@keyframes float {
+  0%, 100%   { transform: translate(-50%, 0) translateY(0); }
+  50%        { transform: translate(-50%, 0) translateY(-10px); }
+}
+
+/* Starburst animation for particles */
+@keyframes starburst {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-10px, -15px) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(15px, -20px) scale(0.8);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate(-15px, 10px) scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Remove hover movement */
+.bubble:hover {
+  box-shadow: 0 0 25px #58a6ff88;
+  transform: translate(-50%, 0);  /* no scale or movement */
+}
+
+/* Positions */
+#bubble1 { top: 5%; left: 20%; }
+#bubble2 { top: 10%; left: 50%; }
+#bubble3 { top: 8%; left: 80%; }

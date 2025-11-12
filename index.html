@@ -1,60 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tick Volume Calculator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Formulas section -->
-  <div class="formulas">
-    <div><em>Time for ticks</em> = tr × req × t / (g × 60)</div>
-    <div><em>Time for volume</em> = vol / (r × 60 / (req × t))</div>
-    <div><em>Volume received</em> = GT × 60 × r / (req × t)</div>
+  <!-- === Floating Bubbles with Stars === -->
+  <div class="bubble" id="bubble1">
+    <div>Time for ticks<br>tr × req × t / (g × 60)</div>
+    <div class="stars">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+
+  <div class="bubble" id="bubble2">
+    <div>Time for volume<br>vol / (r × 60 / (req × t))</div>
+    <div class="stars">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="bubble" id="bubble3">
+    <div>Volume received<br>GT × 60 × r / (req × t)</div>
+    <div class="stars">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
   </div>
 
   <!-- Calculator UI -->
-  <div class="calculator">
-    <div style="display:flex;align-items:center;margin-bottom:0.5rem;">
+  <main class="calculator">
+    <div class="top-row">
       <button class="toggle-btn" id="toggleModeBtn" onclick="toggleMode()">Shorthand Vol & RP</button>
     </div>
 
     <div class="input-row">
-      <div class="input-group"><label>Time/Tick (t)</label><input id="t" value="3.2"><span style="margin-left:4px;font-size:0.9rem;color:#8b949e;">sec</span></div>
-      <div class="input-group"><label>Ticks/Study (req)</label><input id="req" value="8"></div>
-      <div class="input-group"><label>Studies/Study (g)</label><input id="g" value="5"></div>
+      <div class="input-group">
+        <label for="t">Time/Tick (t)</label>
+        <input id="t" value="3.2" />
+        <span class="unit">sec</span>
+      </div>
+
+      <div class="input-group">
+        <label for="req">Ticks/Study (req)</label>
+        <input id="req" value="8" />
+      </div>
+
+      <div class="input-group">
+        <label for="g">Studies/Study (g)</label>
+        <input id="g" value="5" />
+      </div>
     </div>
 
     <div class="input-row">
-      <div class="input-group"><label>Ticks Req. (tr)</label><input id="tr"></div>
+      <div class="input-group">
+        <label for="tr">Ticks Req. (tr)</label>
+        <input id="tr" />
+      </div>
 
       <div id="v_shorthand" class="input-group">
-        <label>Vol Req (v)</label>
-        <input id="v" placeholder="e.g., 5m">
-      </div>
-      <div id="r_shorthand" class="input-group">
-        <label>RP/Study (r)</label>
-        <input id="r" placeholder="e.g., 2k">
+        <label for="v">Vol Req (v)</label>
+        <input id="v" placeholder="e.g., 5m" />
       </div>
 
-      <div id="v_baseexp" class="input-group" style="display:none;">
-        <label>Vol Base</label>
-        <input id="v_base" placeholder="Base">
-        <label style="margin-left:5px;">Exp</label>
-        <input id="v_exp" placeholder="Exp">
+      <div id="r_shorthand" class="input-group">
+        <label for="r">RP/Study (r)</label>
+        <input id="r" placeholder="e.g., 2k" />
       </div>
+
+      <!-- Base/Exp fields (hidden initially) -->
+      <div id="v_baseexp" class="input-group" style="display:none;">
+        <label for="v_base">Vol Base</label>
+        <input id="v_base" placeholder="Base" />
+        <label for="v_exp" class="exp-label">Exp</label>
+        <input id="v_exp" placeholder="Exp" />
+      </div>
+
       <div id="r_baseexp" class="input-group" style="display:none;">
-        <label>RP Base</label>
-        <input id="r_base" placeholder="Base">
-        <label style="margin-left:5px;">Exp</label>
-        <input id="r_exp" placeholder="Exp">
+        <label for="r_base">RP Base</label>
+        <input id="r_base" placeholder="Base" />
+        <label for="r_exp" class="exp-label">Exp</label>
+        <input id="r_exp" placeholder="Exp" />
       </div>
     </div>
 
     <div class="input-row">
-      <div class="input-group"><label>Given Time (GT)</label><input id="gt"></div>
+      <div class="input-group">
+        <label for="gt">Given Time (GT)</label>
+        <input id="gt" />
+      </div>
     </div>
 
     <button onclick="calc()">Compute</button>
@@ -62,10 +103,8 @@
     <div class="result" id="res1"></div>
     <div class="result" id="res2"></div>
     <div class="result" id="res3"></div>
-  </div>
+  </main>
 
   <script src="script.js"></script>
-
 </body>
 </html>
-
