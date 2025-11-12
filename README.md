@@ -1,1 +1,1 @@
-[https://nospecialnamehere.github.io/Game-Calc/](https://nospecialnamehere.github.io/cyakblyat.github.io/)
+[https://nospecialnamehere.github.io/cyakblayt.github.io/](https://nospecialnamehere.github.io/cyakblyat.github.io/)
