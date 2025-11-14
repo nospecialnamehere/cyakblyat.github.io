@@ -192,25 +192,6 @@ button:active { transform: scale(0.98); }
   text-shadow: 0 0 5px rgba(56,139,253,0.3);
 }
 
-/* Star particles container inside each bubble */
-.bubble .stars {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-}
-
-.bubble .stars span {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #fff;
-  border-radius: 50%;
-  opacity: 0;
-  animation: starburst 2s linear infinite;
-}
-
 /* Subtle float animation */
 @keyframes float {
   0%, 100%   { transform: translate(-50%, 0) translateY(0); }

@@ -1,112 +1,109 @@
-// Mapping for shorthand suffixes
-const shorthandMap = { k: 3, m: 6, b: 9, t: 12, qa: 15, qu: 18, sx: 21, sp: 24, o: 27, n: 30, d: 33 };
+// Shorthand suffix map
+const shorthandMap = { k:3, m:6, b:9, t:12, qa:15, qu:18, sx:21, sp:24, o:27, n:30, d:33 };
+const get = id => document.getElementById(id).value.trim().toLowerCase();
 
-// Parse shorthand numbers like 2k, 5m, etc.
-const parseRegular = (v) => {
-  if (!v) return NaN;
-  v = v.toString().trim().toLowerCase();
-  let m = 1;
-  if (v.endsWith('k')) m = 1e3;
-  else if (v.endsWith('m')) m = 1e6;
-  else if (v.endsWith('b')) m = 1e9;
-  return parseFloat(v.replace(/[kmb]/, '')) * m;
+// Parse xk, xm, xb
+const parseRegular = v => {
+  if (!v) return NaN; v = v.toString().trim().toLowerCase();
+  const suf = { k:1e3, m:1e6, b:1e9 }[v.slice(-1)];
+  return parseFloat(v.replace(/[kmb]/,'')) * (suf || 1);
 };
 
-// Parse either shorthand or base/exp inputs for volume or RP
-const parseVolRP = (v, baseId, expId) => {
-  if (!v) return NaN;
-  v = v.toString().trim().toLowerCase();
-  let key = Object.keys(shorthandMap).sort((a, b) => b.length - a.length).find(k => v.endsWith(k));
-  if (key) {
-    return parseFloat(v.replace(key, '')) * Math.pow(10, shorthandMap[key]);
-  }
-  const base = parseFloat(document.getElementById(baseId).value);
-  const exp = parseFloat(document.getElementById(expId).value);
-  if (!isNaN(base) && !isNaN(exp)) return base * Math.pow(10, exp);
-  return parseFloat(v);
+// Parse xk, xm, qa, etc OR fallback to base/exp
+const parseVolRP = (v, b, e) => {
+  if (!v) return NaN; v = v.toLowerCase();
+  const key = Object.keys(shorthandMap).sort((a,b)=>b.length-a.length)
+               .find(k => v.endsWith(k));
+  if (key) return parseFloat(v.replace(key,'')) * 10 ** shorthandMap[key];
+
+  const base = +get(b), exp = +get(e);
+  return (!isNaN(base) && !isNaN(exp)) ? base * 10 ** exp : parseFloat(v);
 };
 
-// Format minutes into "hr min" string
+// Minutes → "x hr y min"
 const fm = m => {
-  let h = Math.floor(m / 60), min = Math.round(m % 60);
-  return h && min ? `${h} hr ${min} min` : h ? `${h} hr` : `${min} min`;
+  const h = Math.floor(m/60), min = Math.round(m%60);
+  return h ? `${h} hr${min?` ${min} min`:''}` : `${min} min`;
 };
 
 // Mode toggle
 let shorthandMode = true;
 function toggleMode() {
   shorthandMode = !shorthandMode;
-  document.getElementById('v_shorthand').style.display = shorthandMode ? 'flex' : 'none';
-  document.getElementById('r_shorthand').style.display = shorthandMode ? 'flex' : 'none';
-  document.getElementById('v_baseexp').style.display = shorthandMode ? 'none' : 'flex';
-  document.getElementById('r_baseexp').style.display = shorthandMode ? 'none' : 'flex';
-  document.getElementById('toggleModeBtn').innerText = shorthandMode ? 'Shorthand' : 'Base/Exp Vol & RP';
+  ['v_shorthand','r_shorthand'].forEach(id => get(id).style.display = shorthandMode?'flex':'none');
+  ['v_baseexp','r_baseexp'].forEach(id => get(id).style.display = shorthandMode?'none':'flex');
+  document.getElementById('toggleModeBtn').innerText =
+    shorthandMode ? 'Shorthand' : 'Base/Exp Vol & RP';
 }
 
-// Parse tr input, allowing "392-292" format
-function parseTR(v) {
+function addTime(minutes) {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() + minutes);
+
+  let h = now.getHours();
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const ampm = h >= 12 ? "pm" : "am";
+  h = h % 12 || 12; // convert 0 → 12
+
+  return `${h}:${m} ${ampm}`;
+}
+
+// Parse TR and allow "A-B"
+const parseTR = v => {
   if (!v) return NaN;
-  v = v.toString().trim();
   if (v.includes('-')) {
-    let parts = v.split('-').map(p => parseRegular(p.trim()));
-    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-      return parts[0] - parts[1];
-    }
+    const [a,b] = v.split('-').map(s => parseRegular(s.trim()));
+    return (!isNaN(a)&&!isNaN(b)) ? a - b : NaN;
   }
   return parseRegular(v);
-}
+};
 
-// Main calculation function
+// Main calculation
 function calc() {
-  let t = parseRegular(document.getElementById('t').value),
-      req = parseRegular(document.getElementById('req').value),
-      g = parseRegular(document.getElementById('g').value),
-      tr = parseTR(document.getElementById('tr').value),
-      gt = parseRegular(document.getElementById('gt').value);
+  const t   = parseRegular(get('t')),
+        req = parseRegular(get('req')),
+        g   = parseRegular(get('g')),
+        tr  = parseTR(get('tr')),
+        gt  = parseRegular(get('gt'));
 
-  // v and r depend on mode
-  let v, r;
-  if (shorthandMode) {
-    v = parseVolRP(document.getElementById('v').value, 'v_base', 'v_exp');
-    r = parseVolRP(document.getElementById('r').value, 'r_base', 'r_exp');
-  } else {
-    const vBase = parseFloat(document.getElementById('v_base').value);
-    const vExp = parseFloat(document.getElementById('v_exp').value);
-    const rBase = parseFloat(document.getElementById('r_base').value);
-    const rExp = parseFloat(document.getElementById('r_exp').value);
-    v = (!isNaN(vBase) && !isNaN(vExp)) ? vBase * Math.pow(10, vExp) : NaN;
-    r = (!isNaN(rBase) && !isNaN(rExp)) ? rBase * Math.pow(10, rExp) : NaN;
+  const v = shorthandMode
+      ? parseVolRP(get('v'),'v_base','v_exp')
+      : (+get('v_base')) * 10 ** (+get('v_exp'));
+
+  const r = shorthandMode
+      ? parseVolRP(get('r'),'r_base','r_exp')
+      : (+get('r_base')) * 10 ** (+get('r_exp'));
+
+  let res1='', res2='', res3='';
+
+  if ([tr,t,req,g].every(x=>!isNaN(x))) {
+    const t1 = tr * req * t / (g * 60);
+    res1 = `Time for ticks = ${fm(t1)}, ${addTime(t1)}`;
   }
 
-  let res1 = '', res2 = '', res3 = '';
+  if ([v,r,t,req].every(x=>!isNaN(x))) {
+    const t2 = v / (60 * r / (req * t));
+    res2 = `Time for volume = ${fm(t2)}, ${addTime(t2)}`;
+  }
 
-  if (!isNaN(tr) && !isNaN(t) && !isNaN(req) && !isNaN(g))
-    res1 = `Time for ticks = ${fm(tr * req * t / (g * 60))}`;
-
-  if (!isNaN(v) && !isNaN(r) && !isNaN(t) && !isNaN(req))
-    res2 = `Time for volume = ${fm(v / (60 * r / (req * t)))}`;
-
-  if (!res1 && !res2 && !isNaN(gt) && !isNaN(r) && !isNaN(t) && !isNaN(req)) {
+  if (!res1 && !res2 && [gt,r,t,req].every(x=>!isNaN(x))) {
     let vol = gt * 60 * r / (req * t);
-    if (vol < 999 * Math.pow(10, shorthandMap.d)) {
-      const units = Object.entries(shorthandMap).sort((a, b) => b[1] - a[1]);
-      for (let [sym, exp] of units) {
-        if (vol >= Math.pow(10, exp)) {
-          vol = (vol / Math.pow(10, exp)).toFixed(2) + sym;
-          break;
-        }
+    const maxD = 999 * 10 ** shorthandMap.d;
+
+    if (vol < maxD) {
+      for (const [sym,exp] of Object.entries(shorthandMap).sort((a,b)=>b[1]-a[1])) {
+        if (vol >= 10 ** exp) { vol = (vol/10**exp).toFixed(2) + sym; break; }
       }
     } else {
       const exp = Math.floor(Math.log10(vol));
-      const base = vol / Math.pow(10, exp);
-      vol = `${base.toFixed(3)}e${exp}`;
+      vol = `${(vol/10**exp).toFixed(3)}e${exp}`;
     }
     res3 = `Volume received = ${vol}`;
   }
 
   if (!res1 && !res2 && !res3) res1 = '⚠️ Invalid inputs ⚠️';
 
-  document.getElementById('res1').innerText = res1;
-  document.getElementById('res2').innerText = res2;
-  document.getElementById('res3').innerText = res3;
+  ['res1','res2','res3'].forEach((id,i)=>
+    document.getElementById(id).innerText = [res1,res2,res3][i]
+  );
 }
