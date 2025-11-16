@@ -10,7 +10,14 @@
 
 <body>
 
-  <!-- Floating Bubbles -->
+  <script>
+    const DEFAULTS = {
+      t: 2.89,   
+      req: 8,    
+      g: 6       
+    };
+  </script>
+
   <div class="bubble" id="bubble1"><div>Time for ticks<br>tr × req × t / (g × 60)</div></div>
   <div class="bubble" id="bubble2"><div>Time for volume<br>vol / (r × 60 / (req × t))</div></div>
   <div class="bubble" id="bubble3"><div>Volume received<br>GT × 60 × r / (req × t)</div></div>
@@ -21,25 +28,23 @@
       <button class="toggle-btn" id="toggleModeBtn" onclick="toggleMode()">Shorthand Vol & RP</button>
     </div>
 
-    <!-- Base constants -->
     <div class="input-row">
       <div class="input-group">
         <label for="t">Time/Tick (t)</label>
-        <input id="t" value="2.89"> <span class="unit">sec</span>
+        <input id="t"> <span class="unit">sec</span>
       </div>
 
       <div class="input-group">
         <label for="req">Ticks/Study (req)</label>
-        <input id="req" value="8">
+        <input id="req">
       </div>
 
       <div class="input-group">
         <label for="g">Studies/Study (g)</label>
-        <input id="g" value="6">
+        <input id="g">
       </div>
     </div>
 
-    <!-- Tick / Volume / RP -->
     <div class="input-row">
       <div class="input-group">
         <label for="tr">Ticks Req. (tr)</label>
@@ -56,7 +61,6 @@
         <input id="r" placeholder="e.g., 2k">
       </div>
 
-      <!-- Base/Exp fields (hidden) -->
       <div id="v_baseexp" class="input-group" style="display:none;">
         <label for="v_base">Vol Base</label>
         <input id="v_base" placeholder="Base">
@@ -72,7 +76,6 @@
       </div>
     </div>
 
-    <!-- Given Time -->
     <div class="input-row">
       <div class="input-group">
         <label for="gt">Given Time (GT)</label>
@@ -88,9 +91,15 @@
 
   </main>
 
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("t").value   = DEFAULTS.t;
+      document.getElementById("req").value = DEFAULTS.req;
+      document.getElementById("g").value   = DEFAULTS.g;
+    });
+  </script>
+
   <script src="script.js"></script>
 </body>
 
 </html>
-
-
