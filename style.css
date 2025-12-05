@@ -82,7 +82,7 @@ input:focus {
 
 /* Base inputs (max 9.99) */
 #v_base, #r_base {
-  width: 4ch;          /* fits 9.99 perfectly */
+  width: 6ch;          /* fits 999.99 */
   padding: .25rem;
   font-size: 0.9rem;
   text-align: center;
@@ -244,4 +244,5 @@ button:active { transform: scale(.98); }
   0% { transform: scale(0); opacity: 1; }
   50% { transform: scale(6); opacity: 0.8; }
   100% { transform: scale(0); opacity: 0; }
+
 }
