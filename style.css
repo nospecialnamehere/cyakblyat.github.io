@@ -1,7 +1,6 @@
-/* === Cosmic Starfield Background === */
+/* === Dark Gradient Background === */
 body {
   position: relative;
-  overflow: hidden;
   margin: 0;
   height: 100vh;
   display: flex;
@@ -10,55 +9,33 @@ body {
   align-items: center;
   font-family: Inter, "Segoe UI", sans-serif;
   color: #c9d1d9;
-  background: #0d1117;
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1f2937 100%);
+  overflow: visible;
 }
 
-/* Star layers */
-body::before,
-body::after {
-  content: "";
+/* === Random Stars === */
+#stars {
   position: absolute;
-  inset: 0;
-  width: 300%;
-  height: 300%;
-  background-repeat: repeat;
-  z-index: -2;
-}
-body::before {
-  background:
-    radial-gradient(2px 2px at 10% 15%, #fff, transparent),
-    radial-gradient(2px 2px at 25% 35%, #aaddff, transparent),
-    radial-gradient(3px 3px at 40% 10%, #ffd6aa, transparent),
-    radial-gradient(2px 2px at 70% 20%, #ffb3ff, transparent),
-    radial-gradient(2px 2px at 85% 45%, #b0e0ff, transparent),
-    radial-gradient(1.5px 1.5px at 30% 80%, #aaddff, transparent),
-    radial-gradient(1.5px 1.5px at 50% 90%, #ffccff, transparent);
-  background-size: 200px 200px;
-  animation: twinkle 18s linear infinite alternate;
-  z-index: -1;
-}
-body::after {
-  background:
-    radial-gradient(1px 1px at 20% 10%, #ffffff55, transparent),
-    radial-gradient(1px 1px at 60% 40%, #aaddff55, transparent),
-    radial-gradient(1px 1px at 90% 80%, #ffd6aa55, transparent),
-    radial-gradient(1px 1px at 35% 75%, #ffccff55, transparent);
-  background-size: 250px 250px;
-  animation: drift 60s linear infinite alternate;
-  opacity: .8;
+  inset: 0;               /* fill entire viewport */
+  pointer-events: none;    /* clicks pass through */
+  z-index: -1;             /* behind content */
 }
 
-@keyframes twinkle { to { transform: translate3d(-100px,-100px,0); } }
-@keyframes drift   { to { transform: translate3d(150px,150px,0); } }
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+}
 
 /* === Calculator === */
 .calculator {
-  background: #161b22;
+  background: linear-gradient(145deg, #161b22, #1b222b);
   border: 1px solid #30363d;
   border-radius: 6px;
   padding: 1.5rem;
   width: 450px;
-  box-shadow: 0 0 10px #0006;
+  box-shadow: 0 0 15px #0008;
   position: absolute;
   bottom: 3%;
   left: 50%;
@@ -165,7 +142,7 @@ button:active { transform: scale(.98); }
   z-index: 10; /* above calculator */
 }
 
-/* header/toggle button (keeps original look) */
+/* header/toggle button */
 .formula-collapsible button {
   width: 100%;
   padding: 0.7rem;
@@ -182,12 +159,12 @@ button:active { transform: scale(.98); }
   background: linear-gradient(90deg,#2ea043,#3fb950);
 }
 
-/* Cards container - collapsed by default, expands when .show is present */
+/* Cards container */
 .cards {
   display: flex;
-  justify-content: center; /* center row */
-  gap: 1rem;              /* space between cards */
-  max-height: 0;          /* COLLAPSED state */
+  justify-content: center;
+  gap: 1rem;
+  max-height: 0;
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
@@ -196,12 +173,12 @@ button:active { transform: scale(.98); }
 
 /* Expanded state */
 .cards.show {
-  max-height: 500px;   /* expanded */
+  max-height: 500px;
   opacity: 1;
   pointer-events: auto;
 }
 
-/* Individual card (preserves your original look) */
+/* Individual card */
 .card {
   background: #161b22;
   border: 1px solid #30363d;
@@ -210,29 +187,57 @@ button:active { transform: scale(.98); }
   text-align: center;
   color: #c9d1d9;
   font-size: 0.9rem;
-  min-width: 120px;       /* ensure uniform width */
+  min-width: 120px;
   box-shadow: 0 0 10px #0006;
-  flex-shrink: 0;         /* prevent shrinking */
+  flex-shrink: 0;
   transform-origin: top center;
   transition: transform 0.28s ease, opacity 0.25s ease;
   opacity: 0.98;
 }
 
-/* Emphasis within card (preserves original) */
+/* Emphasis within card */
 .card strong {
   display: block;
   margin-bottom: 0.2rem;
   color: #58a6ff;
 }
 
-/* Small visual tweak when cards are expanded to avoid jumpy padding */
+/* Small visual tweak when cards are expanded */
 .cards.show .card {
   transform: translateY(0);
 }
 
-/* Accessibility: focus states for keyboard users */
+/* Accessibility: focus states */
 .formula-collapsible button:focus,
 .card:focus {
   outline: 3px solid rgba(88,166,255,0.15);
   outline-offset: 2px;
+}
+
+/* === Blast stars === */
+.blast-star {
+  position: absolute;
+  width: 4px;       /* initial small size */
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.9;
+  pointer-events: none;
+  transform: scale(0);      /* start invisible */
+  animation: blast 1s forwards;
+}
+
+@keyframes blast {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(6);  /* expand rapidly */
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
 }

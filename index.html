@@ -7,12 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-
-  <script>
-    const DEFAULTS = { t: 2.25, req: 6, g: 12 };
-  </script>
 
   <!-- Collapsible Formulas -->
   <div class="formula-collapsible">
@@ -33,6 +28,8 @@
       </div>
     </div>
   </div>
+
+  <div id="stars"></div>
 
   <main class="calculator">
 
@@ -98,15 +95,6 @@
 
   </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      t.value = DEFAULTS.t;
-      req.value = DEFAULTS.req;
-      g.value = DEFAULTS.g;
-    });
-  </script>
-
   <script src="script.js"></script>
-
 </body>
 </html>

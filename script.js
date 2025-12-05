@@ -1,5 +1,17 @@
 // Get input value helper
-const get = id => document.getElementById(id).value.trim();
+const get = id => {
+  const raw = document.getElementById(id).value.trim();
+
+  // Evaluate simple math expressions safely
+  if (/^[0-9+\-*/ ().]+$/.test(raw)) {
+    try {
+      return eval(raw);
+    } catch {
+      return NaN;
+    }
+  }
+  return raw;
+};
 
 // Format minutes to "x hr y min"
 const fm = m => {
@@ -7,7 +19,7 @@ const fm = m => {
   return h ? `${h} hr${min ? ` ${min} min` : ''}` : `${min} min`;
 };
 
-// Add minutes to current time and return formatted string
+// Add minutes to current time
 function addTime(minutes) {
   const now = new Date();
   now.setMinutes(now.getMinutes() + minutes);
@@ -82,12 +94,55 @@ function toggleFormulas() {
   }
 }
 
-// Initialize default values on DOM load
+// Create static random stars
+function createRandomStars(count = 200) {
+  const container = document.getElementById("stars");
+  if(!container) return;
+
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement("div");
+    star.className = "star";
+
+    // random position
+    star.style.top = Math.random() * window.innerHeight + "px";
+    star.style.left = Math.random() * window.innerWidth + "px";
+
+    // random size & opacity
+    const size = Math.random() * 2 + 1; // 1-3 px
+    star.style.width = star.style.height = size + "px";
+    star.style.opacity = Math.random() * 0.8 + 0.2;
+
+    container.appendChild(star);
+  }
+}
+
+function blastStars(count = 3) {
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement("div");
+    star.className = "blast-star";
+
+    // Random position on screen
+    star.style.top = Math.random() * window.innerHeight + "px";
+    star.style.left = Math.random() * window.innerWidth + "px";
+
+    document.body.appendChild(star);
+
+    // Remove the element after the animation ends
+    setTimeout(() => star.remove(), 1000);  // matches CSS animation duration
+  }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
+  // Initialize calculator values
   document.getElementById("t").value   = 2.25;
   document.getElementById("req").value = 6;
   document.getElementById("g").value   = 12;
-
   document.getElementById("v_exp").value = 36;
   document.getElementById("r_exp").value = 36;
+
+  // Generate static random stars
+  createRandomStars(200);
+  // Trigger blast stars every 10 seconds
+  setInterval(() => blastStars(3), 10000);
+
 });
