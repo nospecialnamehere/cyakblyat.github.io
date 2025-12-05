@@ -26,6 +26,10 @@ function changeExp(id, delta) {
   input.value = val;
 }
 
+function adjustExp(id, delta) {
+  changeExp(id, delta);
+}
+
 // Main calculation
 function calc() {
   const t   = parseFloat(get('t')),
@@ -52,7 +56,7 @@ function calc() {
     res2 = `Time for volume = ${fm(t2)}, ${addTime(t2)}`;
   }
 
-  if (!res1 && !res2 && [gt, r, t, req].every(x => !isNaN(x))) {
+  if ([gt, r, t, req].every(x => !isNaN(x))) {
     const vol = gt * 60 * r / (req * t);
     res3 = `Volume received = ${vol.toExponential(3)}`;
   }

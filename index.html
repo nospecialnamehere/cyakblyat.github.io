@@ -16,19 +16,19 @@
 
   <!-- Collapsible Formulas -->
   <div class="formula-collapsible">
-    <button id="toggleFormulasBtn" onclick="toggleFormulas()">Show Formulas ▼</button>
-    
-    <div id="formulaCards" class="cards" style="display:none;">
+    <button id="toggleFormulasBtn" onclick="toggleFormulas()">Hide Formulas ▲</button>
+
+    <div id="formulaCards" class="cards show">
       <div class="card">
         <strong>Time for ticks</strong>
         <span>tr × req × t / (g × 60)</span>
       </div>
       <div class="card">
-        <strong>Time for volume</strong>
+        <strong>Time for vol</strong>
         <span>vol / (r × 60 / (req × t))</span>
       </div>
       <div class="card">
-        <strong>Volume received</strong>
+        <strong>Vol got</strong>
         <span>GT × 60 × r / (req × t)</span>
       </div>
     </div>

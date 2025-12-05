@@ -154,12 +154,18 @@ button:active { transform: scale(.98); }
   text-shadow: 0 0 8px #58a6ff55;
 }
 
-/* === Collapsible Formula Cards === */
+/* Collapsible Formula Cards - Top Center */
 .formula-collapsible {
-  width: 450px;
-  margin-bottom: 1rem;
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 560px;
   text-align: center;
+  z-index: 10; /* above calculator */
 }
+
+/* header/toggle button (keeps original look) */
 .formula-collapsible button {
   width: 100%;
   padding: 0.7rem;
@@ -176,20 +182,26 @@ button:active { transform: scale(.98); }
   background: linear-gradient(90deg,#2ea043,#3fb950);
 }
 
-/* Cards container with smooth slide-down */
+/* Cards container - collapsed by default, expands when .show is present */
 .cards {
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  max-height: 0;
+  justify-content: center; /* center row */
+  gap: 1rem;              /* space between cards */
+  max-height: 0;          /* COLLAPSED state */
   overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-.cards.show {
-  max-height: 500px; /* enough to show all cards */
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
 }
 
-/* Individual card style */
+/* Expanded state */
+.cards.show {
+  max-height: 500px;   /* expanded */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Individual card (preserves your original look) */
 .card {
   background: #161b22;
   border: 1px solid #30363d;
@@ -198,10 +210,29 @@ button:active { transform: scale(.98); }
   text-align: center;
   color: #c9d1d9;
   font-size: 0.9rem;
+  min-width: 120px;       /* ensure uniform width */
   box-shadow: 0 0 10px #0006;
+  flex-shrink: 0;         /* prevent shrinking */
+  transform-origin: top center;
+  transition: transform 0.28s ease, opacity 0.25s ease;
+  opacity: 0.98;
 }
+
+/* Emphasis within card (preserves original) */
 .card strong {
   display: block;
   margin-bottom: 0.2rem;
   color: #58a6ff;
+}
+
+/* Small visual tweak when cards are expanded to avoid jumpy padding */
+.cards.show .card {
+  transform: translateY(0);
+}
+
+/* Accessibility: focus states for keyboard users */
+.formula-collapsible button:focus,
+.card:focus {
+  outline: 3px solid rgba(88,166,255,0.15);
+  outline-offset: 2px;
 }
