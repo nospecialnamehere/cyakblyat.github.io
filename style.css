@@ -13,12 +13,12 @@ body {
   overflow: visible;
 }
 
-/* === Random Stars === */
+/* === Random Stars Container === */
 #stars {
   position: absolute;
-  inset: 0;               /* fill entire viewport */
-  pointer-events: none;    /* clicks pass through */
-  z-index: -1;             /* behind content */
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .star {
@@ -59,6 +59,8 @@ label {
   font-size: .9rem;
   color: #aeb6c1;
 }
+
+/* All inputs center-aligned */
 input {
   width: 85px;
   padding: .35rem .4rem;
@@ -67,19 +69,59 @@ input {
   background: #0d1117;
   color: #c9d1d9;
   transition: .2s;
+  text-align: center;   /* center text in all inputs */
 }
 input:focus {
   border-color: #58a6ff;
   box-shadow: 0 0 6px #58a6ff44;
   outline: none;
 }
+
+/* Smaller inputs for t, req, g */
 #t, #req, #g { width: 30px; }
 
-.unit, .exp-label {
-  margin-left: 6px;
-  font-size: .85rem;
-  color: #8b949e;
+/* Base inputs (max 9.99) */
+#v_base, #r_base {
+  width: 4ch;          /* fits 9.99 perfectly */
+  padding: .25rem;
+  font-size: 0.9rem;
+  text-align: center;
 }
+
+/* Exponent inputs (max 100000) */
+#v_exp, #r_exp {
+  width: 6ch;          /* fits up to 6 digits */
+  padding: .25rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Exponent label spacing */
+.exp-label {
+  margin-left: 4px;
+  font-size: 0.85rem;
+}
+
+/* Exponent buttons (+/-) alignment */
+.exp-btn {
+  width: 22px;
+  height: 24px;
+  margin-left: 4px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.exp-btn.up   { background: #238636; }
+.exp-btn.up:hover   { background: #2ea043; }
+.exp-btn.down { background: #da3633; }
+.exp-btn.down:hover { background: #f85149; }
 
 /* Buttons */
 button {
@@ -101,27 +143,6 @@ button:hover {
 }
 button:active { transform: scale(.98); }
 
-/* Exponent buttons */
-.exp-btn {
-  width: 26px;
-  height: 28px;
-  margin-left: 6px;
-  border: none;
-  border-radius: 4px;
-  font-weight: 700;
-  cursor: pointer;
-  color: #fff;
-  font-size: 16px;
-  line-height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.exp-btn.up   { background: #238636; }
-.exp-btn.up:hover   { background: #2ea043; }
-.exp-btn.down { background: #da3633; }
-.exp-btn.down:hover { background: #f85149; }
-
 /* Results */
 .result {
   margin-top: 1rem;
@@ -141,8 +162,6 @@ button:active { transform: scale(.98); }
   text-align: center;
   z-index: 10; /* above calculator */
 }
-
-/* header/toggle button */
 .formula-collapsible button {
   width: 100%;
   padding: 0.7rem;
@@ -194,20 +213,14 @@ button:active { transform: scale(.98); }
   transition: transform 0.28s ease, opacity 0.25s ease;
   opacity: 0.98;
 }
-
-/* Emphasis within card */
 .card strong {
   display: block;
   margin-bottom: 0.2rem;
   color: #58a6ff;
 }
-
-/* Small visual tweak when cards are expanded */
 .cards.show .card {
   transform: translateY(0);
 }
-
-/* Accessibility: focus states */
 .formula-collapsible button:focus,
 .card:focus {
   outline: 3px solid rgba(88,166,255,0.15);
@@ -217,27 +230,18 @@ button:active { transform: scale(.98); }
 /* === Blast stars === */
 .blast-star {
   position: absolute;
-  width: 4px;       /* initial small size */
+  width: 4px;
   height: 4px;
   background: white;
   border-radius: 50%;
   opacity: 0.9;
   pointer-events: none;
-  transform: scale(0);      /* start invisible */
+  transform: scale(0);
   animation: blast 1s forwards;
 }
 
 @keyframes blast {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(6);  /* expand rapidly */
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
-  }
+  0% { transform: scale(0); opacity: 1; }
+  50% { transform: scale(6); opacity: 0.8; }
+  100% { transform: scale(0); opacity: 0; }
 }
