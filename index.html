@@ -11,22 +11,30 @@
 <body>
 
   <script>
-    const DEFAULTS = {
-      t: 2.25,  
-      req: 6,    
-      g: 12    
-    };
+    const DEFAULTS = { t: 2.25, req: 6, g: 12 };
   </script>
 
-  <div class="bubble" id="bubble1"><div>Time for ticks<br>tr × req × t / (g × 60)</div></div>
-  <div class="bubble" id="bubble2"><div>Time for volume<br>vol / (r × 60 / (req × t))</div></div>
-  <div class="bubble" id="bubble3"><div>Volume received<br>GT × 60 × r / (req × t)</div></div>
+  <!-- Collapsible Formulas -->
+  <div class="formula-collapsible">
+    <button id="toggleFormulasBtn" onclick="toggleFormulas()">Show Formulas ▼</button>
+    
+    <div id="formulaCards" class="cards" style="display:none;">
+      <div class="card">
+        <strong>Time for ticks</strong>
+        <span>tr × req × t / (g × 60)</span>
+      </div>
+      <div class="card">
+        <strong>Time for volume</strong>
+        <span>vol / (r × 60 / (req × t))</span>
+      </div>
+      <div class="card">
+        <strong>Volume received</strong>
+        <span>GT × 60 × r / (req × t)</span>
+      </div>
+    </div>
+  </div>
 
   <main class="calculator">
-
-    <div class="top-row">
-      <button class="toggle-btn" id="toggleModeBtn" onclick="toggleMode()">Shorthand Vol & RP</button>
-    </div>
 
     <div class="input-row">
       <div class="input-group">
@@ -51,29 +59,28 @@
         <input id="tr">
       </div>
 
-      <div id="v_shorthand" class="input-group">
-        <label for="v">Vol Req (v)</label>
-        <input id="v" placeholder="e.g., 5m">
-      </div>
-
-      <div id="r_shorthand" class="input-group">
-        <label for="r">RP/Study (r)</label>
-        <input id="r" placeholder="e.g., 2k">
-      </div>
-
-      <div id="v_baseexp" class="input-group" style="display:none;">
+      <div class="input-group">
         <label for="v_base">Vol Base</label>
-        <input id="v_base" placeholder="Base">
+        <input id="v_base">
+
         <label for="v_exp" class="exp-label">Exp</label>
-        <input id="v_exp" placeholder="Exp">
+        <input id="v_exp" type="number" value="36">
+
+        <button class="exp-btn up"   onclick="adjustExp('v_exp', 1)">+</button>
+        <button class="exp-btn down" onclick="adjustExp('v_exp', -1)">–</button>
       </div>
 
-      <div id="r_baseexp" class="input-group" style="display:none;">
+      <div class="input-group">
         <label for="r_base">RP Base</label>
-        <input id="r_base" placeholder="Base">
+        <input id="r_base">
+
         <label for="r_exp" class="exp-label">Exp</label>
-        <input id="r_exp" placeholder="Exp">
+        <input id="r_exp" type="number" value="36">
+
+        <button class="exp-btn up"   onclick="adjustExp('r_exp', 1)">+</button>
+        <button class="exp-btn down" onclick="adjustExp('r_exp', -1)">–</button>
       </div>
+
     </div>
 
     <div class="input-row">
@@ -92,43 +99,14 @@
   </main>
 
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("t").value   = DEFAULTS.t;
-      document.getElementById("req").value = DEFAULTS.req;
-      document.getElementById("g").value   = DEFAULTS.g;
+    document.addEventListener("DOMContentLoaded", () => {
+      t.value = DEFAULTS.t;
+      req.value = DEFAULTS.req;
+      g.value = DEFAULTS.g;
     });
   </script>
 
   <script src="script.js"></script>
+
 </body>
-
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
