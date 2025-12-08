@@ -135,7 +135,7 @@ function blastStars(count = 3) {
 window.addEventListener("DOMContentLoaded", () => {
   // Initialize calculator values
   document.getElementById("t").value   = 2.25;
-  document.getElementById("req").value = 6;
+  document.getElementById("req").value = 5;
   document.getElementById("g").value   = 12;
   document.getElementById("v_exp").value = 36;
   document.getElementById("r_exp").value = 36;
@@ -144,5 +144,6 @@ window.addEventListener("DOMContentLoaded", () => {
   createRandomStars(200);
   // Trigger blast stars every 10 seconds
   setInterval(() => blastStars(3), 10000);
+
 
 });
