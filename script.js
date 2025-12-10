@@ -134,11 +134,11 @@ function blastStars(count = 3) {
 
 window.addEventListener("DOMContentLoaded", () => {
   // Initialize calculator values
-  document.getElementById("t").value   = 2.25;
+  document.getElementById("t").value   = 2.18;
   document.getElementById("req").value = 5;
   document.getElementById("g").value   = 12;
-  document.getElementById("v_exp").value = 36;
-  document.getElementById("r_exp").value = 36;
+  document.getElementById("v_exp").value = 41;
+  document.getElementById("r_exp").value = 38;
 
   // Generate static random stars
   createRandomStars(200);
@@ -147,3 +147,4 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
