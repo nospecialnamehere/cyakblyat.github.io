@@ -1,248 +1,78 @@
-/* === Dark Gradient Background === */
-body {
-  position: relative;
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: Inter, "Segoe UI", sans-serif;
-  color: #c9d1d9;
-  background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1f2937 100%);
-  overflow: visible;
-}
+body{position:relative;margin:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:Inter,"Segoe UI",sans-serif;color:#c9d1d9;background:linear-gradient(135deg,#0d1117,#161b22 50%,#1f2937)}
+#stars{position:absolute;inset:0;pointer-events:none;z-index:-1}
+.star{position:absolute;background:#fff;border-radius:50%}
 
-/* === Random Stars Container === */
-#stars {
+.calculator{
+  background:linear-gradient(145deg,#161b22,#1b222b);
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:1.5rem;
+  width:450px;
+  box-shadow:0 0 15px #0008;
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-}
-
-/* === Calculator === */
-.calculator {
-  background: linear-gradient(145deg, #161b22, #1b222b);
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 1.5rem;
-  width: 450px;
-  box-shadow: 0 0 15px #0008;
-  position: absolute;
-  bottom: 3%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 }
 
-/* Inputs */
-.input-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: .9rem;
+.input-row{display:flex;flex-wrap:wrap;justify-content:space-between;margin-bottom:.9rem}
+.input-group{display:flex;align-items:center;margin:.3rem}
+label{margin-right:.4rem;font-size:.9rem;color:#aeb6c1}
+
+input{
+  width:85px;padding:.35rem .4rem;
+  border:1px solid #30363d;border-radius:5px;
+  background:#0d1117;color:#c9d1d9;
+  transition:.2s;text-align:center
 }
-.input-group {
-  display: flex;
-  align-items: center;
-  margin: .3rem;
+input:focus{border-color:#58a6ff;box-shadow:0 0 6px #58a6ff44;outline:0}
+#t,#req,#g{width:30px}
+
+#v_base,#r_base,
+#v_exp,#r_exp{width:6ch;padding:.25rem;font-size:.9rem;text-align:center}
+
+.exp-label{margin-left:4px;font-size:.85rem}
+
+.exp-btn{
+  width:22px;height:24px;margin-left:4px;border:0;border-radius:4px;
+  font-weight:700;cursor:pointer;color:#fff;font-size:14px;
+  display:flex;justify-content:center;align-items:center
 }
-label {
-  margin-right: .4rem;
-  font-size: .9rem;
-  color: #aeb6c1;
+.exp-btn.up{background:#238636}
+.exp-btn.up:hover{background:#2ea043}
+.exp-btn.down{background:#da3633}
+.exp-btn.down:hover{background:#f85149}
+
+button{
+  width:100%;padding:.7rem;background:linear-gradient(90deg,#238636,#2ea043);
+  border:0;border-radius:5px;color:#fff;font-weight:600;cursor:pointer;transition:.3s
+}
+button:hover{background:linear-gradient(90deg,#2ea043,#3fb950);transform:scale(1.02);box-shadow:0 0 12px #3fb95055}
+button:active{transform:scale(.98)}
+
+.result{text-align:center;margin-top:1rem;font-weight:700;color:#58a6ff;text-shadow:0 0 8px #58a6ff55}
+
+.formula-collapsible{position:absolute;top:2%;left:50%;transform:translateX(-50%);width:560px;text-align:center}
+.formula-collapsible button{width:100%;padding:.7rem;background:linear-gradient(90deg,#238636,#2ea043);border:0;border-radius:5px;color:#fff;font-weight:600;margin-bottom:.5rem}
+
+.cards{display:flex;justify-content:center;gap:1rem;max-height:0;overflow:hidden;opacity:0;pointer-events:none;transition:.35s}
+.cards.show{max-height:500px;opacity:1;pointer-events:auto}
+
+.card{
+  background:#161b22;border:1px solid #30363d;border-radius:6px;
+  padding:.8rem;text-align:center;color:#c9d1d9;font-size:.9rem;min-width:120px;
+  box-shadow:0 0 10px #0006;opacity:.98
+}
+.card strong{display:block;margin-bottom:.2rem;color:#58a6ff}
+
+.blast-star{
+  position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;
+  opacity:.9;pointer-events:none;transform:scale(0);
+  animation:blast 1s forwards
 }
 
-/* All inputs center-aligned */
-input {
-  width: 85px;
-  padding: .35rem .4rem;
-  border: 1px solid #30363d;
-  border-radius: 5px;
-  background: #0d1117;
-  color: #c9d1d9;
-  transition: .2s;
-  text-align: center;   /* center text in all inputs */
-}
-input:focus {
-  border-color: #58a6ff;
-  box-shadow: 0 0 6px #58a6ff44;
-  outline: none;
-}
-
-/* Smaller inputs for t, req, g */
-#t, #req, #g { width: 30px; }
-
-/* Base inputs (max 9.99) */
-#v_base, #r_base {
-  width: 6ch;          /* fits 999.99 */
-  padding: .25rem;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* Exponent inputs (max 100000) */
-#v_exp, #r_exp {
-  width: 6ch;          /* fits up to 6 digits */
-  padding: .25rem;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* Exponent label spacing */
-.exp-label {
-  margin-left: 4px;
-  font-size: 0.85rem;
-}
-
-/* Exponent buttons (+/-) alignment */
-.exp-btn {
-  width: 22px;
-  height: 24px;
-  margin-left: 4px;
-  border: none;
-  border-radius: 4px;
-  font-weight: 700;
-  cursor: pointer;
-  color: #fff;
-  font-size: 14px;
-  line-height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.exp-btn.up   { background: #238636; }
-.exp-btn.up:hover   { background: #2ea043; }
-.exp-btn.down { background: #da3633; }
-.exp-btn.down:hover { background: #f85149; }
-
-/* Buttons */
-button {
-  width: 100%;
-  padding: .7rem;
-  background: linear-gradient(90deg,#238636,#2ea043);
-  border: 0;
-  border-radius: 5px;
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: .5px;
-  cursor: pointer;
-  transition: .3s;
-}
-button:hover {
-  background: linear-gradient(90deg,#2ea043,#3fb950);
-  transform: scale(1.02);
-  box-shadow: 0 0 12px #3fb95055;
-}
-button:active { transform: scale(.98); }
-
-/* Results */
-.result {
-  margin-top: 1rem;
-  font-weight: 700;
-  text-align: center;
-  color: #58a6ff;
-  text-shadow: 0 0 8px #58a6ff55;
-}
-
-/* Collapsible Formula Cards - Top Center */
-.formula-collapsible {
-  position: absolute;
-  top: 2%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 560px;
-  text-align: center;
-  z-index: 10; /* above calculator */
-}
-.formula-collapsible button {
-  width: 100%;
-  padding: 0.7rem;
-  background: linear-gradient(90deg,#238636,#2ea043);
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 0.5rem;
-  transition: 0.3s;
-}
-.formula-collapsible button:hover {
-  background: linear-gradient(90deg,#2ea043,#3fb950);
-}
-
-/* Cards container */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
-}
-
-/* Expanded state */
-.cards.show {
-  max-height: 500px;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Individual card */
-.card {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 0.8rem;
-  text-align: center;
-  color: #c9d1d9;
-  font-size: 0.9rem;
-  min-width: 120px;
-  box-shadow: 0 0 10px #0006;
-  flex-shrink: 0;
-  transform-origin: top center;
-  transition: transform 0.28s ease, opacity 0.25s ease;
-  opacity: 0.98;
-}
-.card strong {
-  display: block;
-  margin-bottom: 0.2rem;
-  color: #58a6ff;
-}
-.cards.show .card {
-  transform: translateY(0);
-}
-.formula-collapsible button:focus,
-.card:focus {
-  outline: 3px solid rgba(88,166,255,0.15);
-  outline-offset: 2px;
-}
-
-/* === Blast stars === */
-.blast-star {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.9;
-  pointer-events: none;
-  transform: scale(0);
-  animation: blast 1s forwards;
-}
-
-@keyframes blast {
-  0% { transform: scale(0); opacity: 1; }
-  50% { transform: scale(6); opacity: 0.8; }
-  100% { transform: scale(0); opacity: 0; }
-
+@keyframes blast{
+  0%{transform:scale(0);opacity:1}
+  50%{transform:scale(6);opacity:.8}
+  100%{transform:scale(0);opacity:0}
 }

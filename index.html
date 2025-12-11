@@ -2,30 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Tick Volume Calculator</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Collapsible Formulas -->
   <div class="formula-collapsible">
     <button id="toggleFormulasBtn" onclick="toggleFormulas()">Hide Formulas ▲</button>
-
     <div id="formulaCards" class="cards show">
-      <div class="card">
-        <strong>Time for ticks</strong>
-        <span>tr × req × t / (g × 60)</span>
-      </div>
-      <div class="card">
-        <strong>Time for vol</strong>
-        <span>vol / (r × 60 / (req × t))</span>
-      </div>
-      <div class="card">
-        <strong>Vol got</strong>
-        <span>GT × 60 × r / (req × t)</span>
-      </div>
+      <div class="card"><strong>Time for ticks</strong><span>tr × req × t / 60g</span></div>
+      <div class="card"><strong>Time for vol</strong><span>vol / (60r / (req × t))</span></div>
+      <div class="card"><strong>Vol got</strong><span>GT × 60r / (req × t)</span></div>
     </div>
   </div>
 
@@ -34,57 +23,31 @@
   <main class="calculator">
 
     <div class="input-row">
+      <div class="input-group"><label for="t">Time/Tick (t)</label><input id="t"><span class="unit">sec</span></div>
+      <div class="input-group"><label for="req">Ticks/Study (req)</label><input id="req"></div>
+      <div class="input-group"><label for="g">Studies/Study (g)</label><input id="g"></div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group"><label for="tr">Ticks Req. (tr)</label><input id="tr"></div>
+
       <div class="input-group">
-        <label for="t">Time/Tick (t)</label>
-        <input id="t"> <span class="unit">sec</span>
+        <label for="v_base">Vol Base</label><input id="v_base">
+        <label for="v_exp" class="exp-label">Exp</label><input id="v_exp" type="number">
+        <button class="exp-btn up" onclick="adjustExp('v_exp',1)">+</button>
+        <button class="exp-btn down" onclick="adjustExp('v_exp',-1)">–</button>
       </div>
 
       <div class="input-group">
-        <label for="req">Ticks/Study (req)</label>
-        <input id="req">
-      </div>
-
-      <div class="input-group">
-        <label for="g">Studies/Study (g)</label>
-        <input id="g">
+        <label for="r_base">RP Base</label><input id="r_base">
+        <label for="r_exp" class="exp-label">Exp</label><input id="r_exp" type="number">
+        <button class="exp-btn up" onclick="adjustExp('r_exp',1)">+</button>
+        <button class="exp-btn down" onclick="adjustExp('r_exp',-1)">–</button>
       </div>
     </div>
 
     <div class="input-row">
-      <div class="input-group">
-        <label for="tr">Ticks Req. (tr)</label>
-        <input id="tr">
-      </div>
-
-      <div class="input-group">
-        <label for="v_base">Vol Base</label>
-        <input id="v_base">
-
-        <label for="v_exp" class="exp-label">Exp</label>
-        <input id="v_exp" type="number" value="36">
-
-        <button class="exp-btn up"   onclick="adjustExp('v_exp', 1)">+</button>
-        <button class="exp-btn down" onclick="adjustExp('v_exp', -1)">–</button>
-      </div>
-
-      <div class="input-group">
-        <label for="r_base">RP Base</label>
-        <input id="r_base">
-
-        <label for="r_exp" class="exp-label">Exp</label>
-        <input id="r_exp" type="number" value="36">
-
-        <button class="exp-btn up"   onclick="adjustExp('r_exp', 1)">+</button>
-        <button class="exp-btn down" onclick="adjustExp('r_exp', -1)">–</button>
-      </div>
-
-    </div>
-
-    <div class="input-row">
-      <div class="input-group">
-        <label for="gt">Given Time (GT)</label>
-        <input id="gt">
-      </div>
+      <div class="input-group"><label for="gt">Given Time (GT)</label><input id="gt"></div>
     </div>
 
     <button onclick="calc()">Compute</button>

@@ -1,151 +1,103 @@
-// Get input value helper
-const get = id => {
-  const raw = document.getElementById(id).value.trim();
-
-  // Evaluate simple math expressions safely
-  if (/^[0-9+\-*/ ().]+$/.test(raw)) {
-    try {
-      return eval(raw);
-    } catch {
-      return NaN;
-    }
-  }
-  return raw;
+const DEFAULTS = {
+  t: 2.18,
+  req: 5,
+  g: 13,
+  v_exp: 41,
+  r_exp: 38
 };
 
-// Format minutes to "x hr y min"
-const fm = m => {
-  const h = Math.floor(m / 60), min = Math.round(m % 60);
-  return h ? `${h} hr${min ? ` ${min} min` : ''}` : `${min} min`;
+
+const get=id=>{
+  const v=document.getElementById(id).value.trim();
+  if(/^[0-9+\-*/ ().]+$/.test(v)){try{return eval(v)}catch{return NaN}}
+  return v
 };
 
-// Add minutes to current time
-function addTime(minutes) {
-  const now = new Date();
-  now.setMinutes(now.getMinutes() + minutes);
-  let h = now.getHours();
-  const m = now.getMinutes().toString().padStart(2, '0');
-  const ampm = h >= 12 ? "pm" : "am";
-  h = h % 12 || 12;
-  return `${h}:${m} ${ampm}`;
-}
+const fm=m=>{
+  const h=(m/60|0),n=(m%60|0);
+  return h?`${h} hr${n?` ${n} min`:""}`:`${n} min`
+};
 
-// Increment/decrement exponent buttons
-function changeExp(id, delta) {
-  const input = document.getElementById(id);
-  let val = parseInt(input.value) || 36;
-  val += delta;
-  input.value = val;
-}
+const addTime=m=>{
+  const d=new Date();
+  d.setMinutes(d.getMinutes()+m);
+  let h=d.getHours(),n=(""+d.getMinutes()).padStart(2,"0");
+  return`${(h%12||12)}:${n} ${h>=12?"pm":"am"}`
+};
 
-function adjustExp(id, delta) {
-  changeExp(id, delta);
-}
+const adjustExp=(id,d)=>{
+  let v=parseInt(document.getElementById(id).value)||36;
+  document.getElementById(id).value=v+d
+};
 
-// Main calculation
-function calc() {
-  const t   = parseFloat(get('t')),
-        req = parseFloat(get('req')),
-        g   = parseFloat(get('g')),
-        tr  = parseFloat(get('tr')),
-        gt  = parseFloat(get('gt'));
+function calc(){
+  const t=get("t"),q=get("req"),g=get("g"),tr=get("tr"),gt=get("gt"),
+        vb=get("v_base"),ve=get("v_exp"),
+        rb=get("r_base"),re=get("r_exp"),
+        v=!isNaN(vb)&&!isNaN(ve)?vb*10**ve:NaN,
+        r=!isNaN(rb)&&!isNaN(re)?rb*10**re:NaN;
 
-  const v_base = parseFloat(get('v_base')), v_exp = parseInt(get('v_exp'));
-  const r_base = parseFloat(get('r_base')), r_exp = parseInt(get('r_exp'));
+  let a="",b="",c="";
 
-  const v = (!isNaN(v_base) && !isNaN(v_exp)) ? v_base * 10 ** v_exp : NaN;
-  const r = (!isNaN(r_base) && !isNaN(r_exp)) ? r_base * 10 ** r_exp : NaN;
-
-  let res1 = '', res2 = '', res3 = '';
-
-  if ([tr, t, req, g].every(x => !isNaN(x))) {
-    const t1 = tr * req * t / (g * 60);
-    res1 = `Time for ticks = ${fm(t1)}, ${addTime(t1)}`;
+  if([tr,t,q,g].every(x=>!isNaN(x))){
+    const x=tr*q*t/(g*60);
+    a=`Time for ticks = ${fm(x)}, ${addTime(x)}`
   }
 
-  if ([v, r, t, req].every(x => !isNaN(x))) {
-    const t2 = v / (r * 60 / (req * t));
-    res2 = `Time for volume = ${fm(t2)}, ${addTime(t2)}`;
+  if([v,r,t,q].every(x=>!isNaN(x))){
+    const x=v/(r*60/(q*t));
+    b=`Time for volume = ${fm(x)}, ${addTime(x)}`
   }
 
-  if ([gt, r, t, req].every(x => !isNaN(x))) {
-    const vol = gt * 60 * r / (req * t);
-    res3 = `Volume received = ${vol.toExponential(3)}`;
+  if([gt,r,t,q].every(x=>!isNaN(x))){
+    const x=gt*60*r/(q*t);
+    c=`Volume received = ${x.toExponential(3)}`
   }
 
-  if (!res1 && !res2 && !res3) res1 = '⚠️ Invalid inputs ⚠️';
+  if(!a&&!b&&!c)a="⚠️ Invalid inputs ⚠️";
 
-  ['res1','res2','res3'].forEach((id,i) =>
-    document.getElementById(id).innerText = [res1,res2,res3][i]
-  );
+  document.getElementById("res1").innerText=a;
+  document.getElementById("res2").innerText=b;
+  document.getElementById("res3").innerText=c;
 }
 
-// Collapsible formula cards
-function toggleFormulas() {
-  const cards = document.getElementById('formulaCards');
-  const btn = document.getElementById('toggleFormulasBtn');
+function toggleFormulas(){
+  const c=document.getElementById("formulaCards"),b=document.getElementById("toggleFormulasBtn");
+  c.classList.contains("show")?
+    (c.classList.remove("show"),b.innerText="Show Formulas ▼"):
+    (c.classList.add("show"),b.innerText="Hide Formulas ▲")
+}
 
-  if (cards.classList.contains('show')) {
-    cards.classList.remove('show');
-    btn.innerText = "Show Formulas ▼";
-  } else {
-    cards.classList.add('show');
-    btn.innerText = "Hide Formulas ▲";
+function createRandomStars(n=200){
+  const s=document.getElementById("stars"); if(!s)return;
+  for(let i=0;i<n;i++){
+    const e=document.createElement("div");
+    e.className="star";
+    e.style.top=Math.random()*innerHeight+"px";
+    e.style.left=Math.random()*innerWidth+"px";
+    const z=Math.random()*2+1;
+    e.style.width=e.style.height=z+"px";
+    e.style.opacity=Math.random()*.8+.2;
+    s.appendChild(e)
   }
 }
 
-// Create static random stars
-function createRandomStars(count = 200) {
-  const container = document.getElementById("stars");
-  if(!container) return;
-
-  for (let i = 0; i < count; i++) {
-    const star = document.createElement("div");
-    star.className = "star";
-
-    // random position
-    star.style.top = Math.random() * window.innerHeight + "px";
-    star.style.left = Math.random() * window.innerWidth + "px";
-
-    // random size & opacity
-    const size = Math.random() * 2 + 1; // 1-3 px
-    star.style.width = star.style.height = size + "px";
-    star.style.opacity = Math.random() * 0.8 + 0.2;
-
-    container.appendChild(star);
+function blastStars(n=3){
+  for(let i=0;i<n;i++){
+    const e=document.createElement("div");
+    e.className="blast-star";
+    e.style.top=Math.random()*innerHeight+"px";
+    e.style.left=Math.random()*innerWidth+"px";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),1e3)
   }
 }
 
-function blastStars(count = 3) {
-  for (let i = 0; i < count; i++) {
-    const star = document.createElement("div");
-    star.className = "blast-star";
-
-    // Random position on screen
-    star.style.top = Math.random() * window.innerHeight + "px";
-    star.style.left = Math.random() * window.innerWidth + "px";
-
-    document.body.appendChild(star);
-
-    // Remove the element after the animation ends
-    setTimeout(() => star.remove(), 1000);  // matches CSS animation duration
+window.addEventListener("DOMContentLoaded",()=>{
+  for(const[k,v]of Object.entries(DEFAULTS)){
+    const el=document.getElementById(k);
+    if(el)el.value=v
   }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  // Initialize calculator values
-  document.getElementById("t").value   = 2.18;
-  document.getElementById("req").value = 5;
-  document.getElementById("g").value   = 13;
-  document.getElementById("v_exp").value = 41;
-  document.getElementById("r_exp").value = 38;
-
-  // Generate static random stars
   createRandomStars(200);
-  // Trigger blast stars every 10 seconds
-  setInterval(() => blastStars(3), 10000);
-
-
+  setInterval(()=>blastStars(3),1e4)
 });
-
-
