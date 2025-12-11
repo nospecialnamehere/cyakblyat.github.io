@@ -136,7 +136,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // Initialize calculator values
   document.getElementById("t").value   = 2.18;
   document.getElementById("req").value = 5;
-  document.getElementById("g").value   = 12;
+  document.getElementById("g").value   = 13;
   document.getElementById("v_exp").value = 41;
   document.getElementById("r_exp").value = 38;
 
@@ -147,4 +147,5 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
 
