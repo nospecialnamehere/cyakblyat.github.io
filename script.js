@@ -1,9 +1,9 @@
 const DEFAULTS = {
-  t: 2.01,
+  t: 1.99,
   req: 4,
-  g: 51,
-  v_exp: 107,
-  r_exp: 102
+  g: 57,
+  v_exp: 152,
+  r_exp: 149
 };
 
 
@@ -101,6 +101,7 @@ window.addEventListener("DOMContentLoaded",()=>{
   createRandomStars(200);
   setInterval(()=>blastStars(3),1e4)
 });
+
 
 
 
